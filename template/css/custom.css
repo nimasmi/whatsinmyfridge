@@ -1,0 +1,9 @@
+
+body
+{
+    background-image:url('/img/measuringscales.png');
+    background-repeat:repeat-y;
+}
+footer{
+      display: block;
+  }
