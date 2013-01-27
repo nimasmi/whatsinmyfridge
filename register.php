@@ -13,11 +13,14 @@
 			print "User already exists";
 			exit;
 		} else {
+			list($lat,$lng) = geocode ($_REQUEST["postcode"]);
 			$stmt->close ();
-			$stmt = $mysqli->prepare ("INSERT INTO users (User, Pass, Email) VALUES (?, ?, ?)");
-			$stmt->bind_params ("sss", $_REQUEST["user"], md5($md5salt.$_REQUEST["pass1"]), $_REQUEST["email"]);
+			$stmt = $mysqli->prepare ("INSERT INTO users (User, Pass, Email, Latitude, Longitude) VALUES (?, ?, ?, ?, ?)");
+			$stmt->bind_params ("sss", $_REQUEST["user"], md5($md5salt.$_REQUEST["pass1"]), $_REQUEST["email"], $lat, $lng);
 			$stmt->execute();
 			$_SESSION["UserID"] = $mysqli->insert_id;
+			$_SESSION["Latitude"] = $lat;
+			$_SESSION["Longitude"] = $lng;
 			session_write_close ();
 			header ("Location: index.php");
 		}
@@ -31,6 +34,7 @@ Username: <input type="text" name="user"><br>
 Email: <input type="text" name="email"><br>
 Password: <input type="password" name="pass1"><br>
 Confirm password: <input type="password" name="pass2"><br>
+Postcode (for locating labs near to you): <input type="text" name="postcode"><br>
 <input type="submit" value="Register">
 </form>
 </body

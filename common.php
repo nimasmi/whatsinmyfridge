@@ -23,4 +23,16 @@
 		$stmt->fetch();
 		return array($lat, $lng);
 	}
+	function latlongdist ($lat1, $lng1, $lat2, $lng2) {
+		#FIXME: use OS's shiney version
+		$R = 6371;
+		$dlat = deg2rad ($lat2-$lat1);
+		$dlng = deg2rad ($lng2-$lng1);
+		$lat1 = deg2rad ($lat1);
+		$lng1 = deg2rad ($lng1);
+
+		$a = sin($dlat/2) * sin($dlat/2) + sin($dlng/2) * sin($dlng/2) * cos($lat1) * cos($lng1);
+		$c = 2 * atan2(sqrt($a), sqrt(1-$a));
+		return $R * $c;
+	}
 ?>

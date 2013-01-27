@@ -8,16 +8,18 @@
 		header ("Location: index.php");
 		exit;
 	} else if (isset($_REQUEST["User"])) {
-		$stmt = $mysqli->prepare ("SELECT ID, Pass FROM users WHERE User = ?");
+		$stmt = $mysqli->prepare ("SELECT ID, Pass, Latitude, Longitude FROM users WHERE User = ?");
 		$stmt->bind_param ("s", $_REQUEST["User"]);
 		$stmt->execute ();
-		$stmt->bind_result ($id, $pass);
+		$stmt->bind_result ($id, $pass, $lat, $lng);
 		if ($stmt->fetch()) {
 			if (md5($md5salt.$_REQUEST["Pass"]) != $pass) {
 				print "Username/password incorrect";
 				exit;
 			}
 			$_SESSION['UserID'] = $id;
+			$_SESSION["Latitude"] = $lat;
+			$_SESSION["Longitude"] = $lng;
 			session_write_close ();
 			header ("Location: index.php");
 			exit;
