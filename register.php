@@ -25,9 +25,8 @@
 			header ("Location: index.php");
 		}
 	} else {
+		common_header ();
 ?>
-<html>
-<body>
 <form method="post" action="register.php">
 <input type="hidden" name="mode" value="register">
 Username: <input type="text" name="user"><br>
@@ -37,8 +36,7 @@ Confirm password: <input type="password" name="pass2"><br>
 Postcode (for locating labs near to you): <input type="text" name="postcode"><br>
 <input type="submit" value="Register">
 </form>
-</body
-</html>
 <?php
+		common_footer ();
 	}
 ?>

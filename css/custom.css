@@ -1,0 +1,82 @@
+@import url(http://fonts.googleapis.com/css?family=Happy+Monkey);
+
+body
+{
+    background-image:url('/img/measure2.png');
+    background-repeat:repeat-y;
+    background-size: 60px;
+    color: #384035;
+}
+footer{
+      display: block;
+  }
+
+h1,h2,h3,h4,h5,h6{
+    font-family: "Happy Monkey", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #5e736b;
+}
+
+html, body {
+    height: 100%;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+/* Negative indent footer by it's height (including any padding) */
+    margin: 0 auto -105px;
+    clear: ;
+}
+
+/* Set the fixed height of the footer here */
+#push,#footer {
+    height: 85px;
+}
+#footer {
+    background-color: #384035;
+    color: #e2f0de;
+    clear:both;
+    padding-top: 20px;
+}
+
+#main {
+    overflow:auto;
+    padding-bottom: 85px; /* this needs to be bigger than footer height*/
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+    #footer {
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+a {
+    color: #97c93c;
+}
+
+.well {
+    background-color: #e2f0de;
+}
+.nav-pills > .active > a,
+.nav-pills > .active > a:hover{
+    background-color: #d2ff17;
+    color: inherit;
+}
+.nav-pills > a:hover{
+    color: inherit;
+}
+.btn {
+    background-image: none;
+}
+#nav {
+    padding-bottom: 20px;
+}
+.current-value {
+    color: black;
+}

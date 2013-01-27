@@ -6,6 +6,7 @@
 	$mysql_db = "";
 	$md5salt = "";
 	require_once "vars.php";	#Sets the above variables
+	require_once "layout.php";
 
 	session_start ();
 	if (!isset($_SESSION["UserID"]) && !isset($skipauth)) {

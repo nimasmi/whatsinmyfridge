@@ -28,8 +28,9 @@
 			exit;
 		}
 	}
+
+	common_header ();
 ?>
-<html>
 <body>
 <form method="post" action="login.php">
 Username: <input type="text" name="User"><br>
@@ -37,5 +38,6 @@ Password: <input type="password" name="Pass"><br>
 <input type="submit" value="Login"><br>
 <a href="register.php">Register</a>
 </form>
-</body>
-</html>
+<?php
+	common_footer ();
+?>

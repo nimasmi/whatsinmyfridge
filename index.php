@@ -1,18 +1,41 @@
 <?php
+	$skipauth = 1;
 	require_once "common.php";
 
-	if (!isset($_SESSION["UserID"])) {
-		header ("Location: login.php");
+	if (isset($_SESSION["UserID"])) {
+		header ("Location: home.php");
 		exit;
 	}
-?>
-<html>
-<body>
-<a href="addlab.php">Add a lab</a><br>
-<a href="viewlab.php">Labs</a><br>
-<a href="search.php">Search</a><br>
-<a href="location.php">Change my current location</a><br>
-<a href="login.php?logout=1">Logout</a>
-</body>
-</html>
 
+	common_header ();
+?>
+    <div class="row">
+    <div class="span6">
+    <h1>What's in my fridge?</h1>
+    <p class="lead">The NHS Marketplace for Laboratory Stock</p>
+    <a class="btn btn-large btn-primary" href="register.php">Sign up today</a>
+    <a class="btn btn-large btn-primary" href="login.php">Login</a>
+
+    <h4>Search</h4>
+    <p>for Chemicals and Reagents that are located in fridge/freezers in your institute and other institutes.</p>
+
+    <h4>Save</h4>
+    <p>money on buying and selling within the NHS</p>
+
+    <h4>Network</h4>
+    <p>with other health professionals</p>
+
+    <h4>Analyse</h4>
+    <p>Can also provide analytics on how often an item is ordered, the analytics can also reveal if any item is surplus to requirement based on expiry date</p>
+
+    <h4>Notify</h4>
+    <p>Auto generate emails to yourself and other health professionals once any item comes within two months of the expiry date.</p>
+
+    </div> <!-- /span6 -->
+    <div class="span6">
+        <img src="img/whatsfridgelarge.jpg">
+    </div>
+    </div> <!-- /row -->
+<?php
+	common_footer ();
+?>
