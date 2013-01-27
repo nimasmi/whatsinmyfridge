@@ -15,13 +15,15 @@
 		foreach ($_REQUEST as $key => $value) {
 			if (substr ($key, 0, 6) == "option") {
 				$field = substr ($key, 6);
-				$option = $value;
+				if (is_numeric($value)) {
+					$option = $value;
+				}
 				$stmt->execute ();
 			}
-			unset ($option);
-			unset ($d_float);
-			unset ($d_date);
-			unset ($d_text);
+			$option = null;
+			$d_float = null;
+			$d_date = null;
+			$d_text = null;
 		}
 		$stmt->close();
 		$mysqli->commit ();
@@ -39,11 +41,12 @@
 <html>
 <body>
 <form method="post" action="item.php">
-<input type="hidden" name="ItemID" value="<?php print $_REQUEST["ID"]; ?>">
+<input type="hidden" name="ID" value="<?php print $_REQUEST["ID"]; ?>">
 <input type="hidden" name="update" value="1">
 <table border="1" cellpadding="0" cellspacing="0" width="400">
 <?php
 	while ($stmt->fetch()) {
+		print "<!-- $fid -->\n";
 		if ($fid != $pfid) {
 			if ($pfid > -1) {
 				if ($wasopt) {

@@ -4,7 +4,7 @@
 #FIXME: authentication, duplicates
 	if (isset($_REQUEST["Title"])) {
 		$stmt = $mysqli->prepare ("INSERT INTO rooms (LabID, Title) VALUES (?, ?)");
-		$stmt->bind_param ("ss", $_REQUEST["LabID"], $_REQUEST["Title"]);
+		$stmt->bind_param ("is", $_REQUEST["LabID"], $_REQUEST["Title"]);
 		$stmt->execute ();
 		header ("Location: room.php?ID=".$mysqli->insert_id);
 	}
@@ -18,3 +18,4 @@ Room title: <input type="text" name="Title"><br>
 </form>
 </body>
 </html>
+
