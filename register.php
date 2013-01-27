@@ -18,7 +18,8 @@
 			$stmt->bind_params ("sss", $_REQUEST["user"], md5($md5salt.$_REQUEST["pass1"]), $_REQUEST["email"]);
 			$stmt->execute();
 			$_SESSION["UserID"] = $mysqli->insert_id;
-			header ("Location: home.php");
+			session_write_close ();
+			header ("Location: index.php");
 		}
 	} else {
 ?>
