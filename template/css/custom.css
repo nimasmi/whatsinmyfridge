@@ -4,7 +4,7 @@ body
 {
     background-image:url('/img/measure2.png');
     background-repeat:repeat-y;
-    background-size:60px;
+    background-size: 60px;
     color: #384035;
 }
 footer{
@@ -25,22 +25,25 @@ html, body {
     min-height: 100%;
     height: auto !important;
     height: 100%;
-/* Negative indent footer by it's height */
-    margin: 0 auto -60px;
+/* Negative indent footer by it's height (including any padding) */
+    margin: 0 auto -105px;
+    clear: ;
 }
 
 /* Set the fixed height of the footer here */
+#push,#footer {
+    height: 85px;
+}
 #footer {
     background-color: #384035;
     color: #e2f0de;
-    height: 60px;
     clear:both;
     padding-top: 20px;
 }
 
 #main {
     overflow:auto;
-    padding-bottom:150px; /* this needs to be bigger than footer height*/
+    padding-bottom: 85px; /* this needs to be bigger than footer height*/
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */
