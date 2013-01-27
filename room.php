@@ -15,7 +15,7 @@ Room: <?php print $title; ?> (<?php print $lab; ?>)<br>
 	$stmt->close();
 
 	$stmt = $mysqli->prepare ("SELECT shelves.ID, shelves.Title, shelftypes.Title FROM shelves INNER JOIN shelftypes ON shelves.ShelfTypeID=shelftypes.ID WHERE shelves.RoomID=? ORDER BY shelftypes.Title ASC, shelves.Title ASC");
-	$stmt->bind_param ("i", $_REQUEST["RoomID"]);
+	$stmt->bind_param ("i", $_REQUEST["ID"]);
 	$stmt->execute ();
 	$stmt->bind_result ($id, $title, $type);
 	while ($stmt->fetch()) {

@@ -3,8 +3,27 @@
 
 	#FIXME: authentication, metainfo selection
 
+	function metaoptionhack ($field) {
+		#FIXME: until I can be bothered to sort out SQL to do a full outer join, anything that doesn't have an option, will use a placeholder option
+		global $mysqli;
+		$mohack = $mysqli->prepare ("SELECT ID FROM metaoptions WHERE MetafieldID = ?");
+		$mohack->bind_param ("i", $mohack_field);
+		$mohack->bind_result ($mohack_option);
+		$mohack_field = $field;
+		$mohack->execute();
+		$mohack->fetch();
+		$mohack->close();
+		print "<!-- mohack $field = $mohack_option -->\n";
+		return $mohack_option;
+	}
+
 	if (isset($_REQUEST["update"])) {
+
 		$mysqli->autocommit (FALSE);
+		$stmt = $mysqli->prepare ("UPDATE items SET Title = ? WHERE ID = ?");
+		$stmt->bind_param ("si", $_REQUEST['Title'], $_REQUEST["ID"]);
+		$stmt->execute ();
+		$stmt->close ();
 		$stmt = $mysqli->prepare ("DELETE FROM metavalues WHERE ItemID = ?");
 		$stmt->bind_param ("i", $_REQUEST["ID"]);
 		$stmt->execute ();
@@ -19,6 +38,18 @@
 					$option = $value;
 				}
 				$stmt->execute ();
+			} elseif (substr ($key, 0, 5) == "float") {
+				$field = substr ($key, 5);
+				if (is_numeric($value)) {
+					$option = metaoptionhack ($field);
+					$d_float = $value;
+					$stmt->execute ();
+				}
+			} elseif (substr ($key, 0, 3) == "day") {
+				$field = substr ($key, 3);
+				$option = metaoptionhack ($field);
+				$d_date = $_REQUEST["year".$field]."-".$_REQUEST["month".$field]."-".$_REQUEST["day".$field];
+				$stmt->execute ();
 			}
 			$option = null;
 			$d_float = null;
@@ -27,12 +58,27 @@
 		}
 		$stmt->close();
 		$mysqli->commit ();
+
+		$stmt = $mysqli->prepare ("SELECT ShelfID FROM items WHERE ID = ?");
+		$stmt->bind_param ("i", $_REQUEST["ID"]);
+		$stmt->execute ();
+		$stmt->bind_result ($shelf);
+		$stmt->fetch();
+		$stmt->close();
+		header ("Location: shelf.php?ID=".$shelf);
 	}
 
-	$stmt = $mysqli->prepare ("SELECT metatables.Title, metafields.Title, metaoptions.Title, metafields.IsOption, metafields.IsFloat, metafields.IsDate, metafields.IsText, metatables.ID, metafields.ID, metaoptions.ID, metavalues.ID FROM metatables LEFT JOIN metafields ON metatables.ID = metafields.MetatableID LEFT JOIN metaoptions ON metafields.ID = metaoptions.MetafieldID LEFT JOIN metavalues ON metaoptions.ID = metavalues.MetaoptionID WHERE (metavalues.ItemID = ? OR metavalues.ItemID IS NULL) ORDER BY metatables.Title ASC, metafields.Title ASC, metaoptions.Title ASC;");
+	$stmt = $mysqli->prepare ("SELECT Title FROM items WHERE ID = ?");
 	$stmt->bind_param ("i", $_REQUEST["ID"]);
 	$stmt->execute ();
-	$stmt->bind_result ($table, $field, $option, $isoption, $isfloat, $isdate, $istext, $tid, $fid, $oid, $vid);
+	$stmt->bind_result ($title);
+	$stmt->fetch();
+	$stmt->close();
+
+	$stmt = $mysqli->prepare ("SELECT metatables.Title, metafields.Title, metaoptions.Title, metafields.IsOption, metafields.IsFloat, metafields.IsDate, metafields.IsText, metavalues.FloatData, metavalues.DateData, metavalues.TextData, metatables.ID, metafields.ID, metaoptions.ID, metavalues.ID FROM metatables LEFT JOIN metafields ON metatables.ID = metafields.MetatableID LEFT JOIN metaoptions ON metafields.ID = metaoptions.MetafieldID LEFT JOIN metavalues ON metaoptions.ID = metavalues.MetaoptionID WHERE (metavalues.ItemID = ? OR metavalues.ItemID IS NULL) ORDER BY metatables.Title ASC, metafields.Title ASC, metaoptions.Title ASC;");
+	$stmt->bind_param ("i", $_REQUEST["ID"]);
+	$stmt->execute ();
+	$stmt->bind_result ($table, $field, $option, $isoption, $isfloat, $isdate, $istext, $d_float, $d_date, $d_text, $tid, $fid, $oid, $vid);
 	$tid = $fid = $oid = -1;
 	$ptid = $pfid = -1;
 	$wasopt = 1;
@@ -44,6 +90,10 @@
 <input type="hidden" name="ID" value="<?php print $_REQUEST["ID"]; ?>">
 <input type="hidden" name="update" value="1">
 <table border="1" cellpadding="0" cellspacing="0" width="400">
+	<tr>
+		<td>Item name</td>
+		<td><input type="text" name="Title" value="<?php print $title; ?>"></td>
+	</tr>
 <?php
 	while ($stmt->fetch()) {
 		print "<!-- $fid -->\n";
@@ -77,11 +127,11 @@
 <?php
 		} else if ($isdate) {
 ?>
-			<input type="text" name="day<?php echo $fid; ?>" value="" size="2">/<input type="text" name="month<?php echo $fid; ?>" value="" size="2">/<input type="text" name="year<?php echo $fid; ?>" value="" size="4">
+			<input type="text" name="day<?php echo $fid; ?>" value="<?php print substr($d_date, 8, 2); ?>" size="2">/<input type="text" name="month<?php echo $fid; ?>" value="<?php print substr($d_date, 5, 2); ?>" size="2">/<input type="text" name="year<?php echo $fid; ?>" value="<?php print substr($d_date, 0, 4); ?>" size="4">
 <?php
-		} else {
+		} else if ($isfloat) {
 ?>
-			<input type="text" name="" value="">
+			<input type="text" name="float<?php echo $fid; ?>" value="<?php echo $d_float; ?>">
 <?php
 		}
 		$ptid = $tid;
