@@ -3,8 +3,9 @@
 
 	if (isset($_REQUEST["Title"])) {
 		#FIXME: duplicate check
-		$stmt = $mysqli->prepare ("INSERT INTO labs (InstitutionID, Title, Address, Postcode) VALUES (?, ?, ?, ?)");
-		$stmt->bind_params ("isss", $_REQUEST["InstitutionID"], $_REQUEST["Title"], $_REQUEST["Address"], $_REQUEST["Postcode"]);
+		list ($lat, $lng) = geocode ($_REQUEST["Postcode"]);
+		$stmt = $mysqli->prepare ("INSERT INTO labs (InstitutionID, Title, Address, Postcode, Latitude, Longitude) VALUES (?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param ("isssdd", $_REQUEST["InstitutionID"], $_REQUEST["Title"], $_REQUEST["Address"], $_REQUEST["Postcode"], $lat, $lng);
 		$stmt->execute();
 		header ("Location: viewlab.php?ID=".$mysqli->insert_id);
 	}
