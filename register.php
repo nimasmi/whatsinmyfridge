@@ -1,4 +1,5 @@
 <?php
+	$skipauth = 1;
 	require_once "common.php";
 
 	if (isset($_REQUEST["mode"])) {
@@ -7,7 +8,7 @@
 			exit;
 		}
 		$stmt = $mysqli->prepare ("SELECT ID FROM users WHERE User=?");
-		$stmt->bind_params ("s", $_REQUEST["user"]);
+		$stmt->bind_param ("s", $_REQUEST["user"]);
 		$stmt->execute ();
 		if ($stmt->num_rows() != 0) {
 			print "User already exists";
@@ -16,7 +17,7 @@
 			list($lat,$lng) = geocode ($_REQUEST["postcode"]);
 			$stmt->close ();
 			$stmt = $mysqli->prepare ("INSERT INTO users (User, Pass, Email, Latitude, Longitude) VALUES (?, ?, ?, ?, ?)");
-			$stmt->bind_params ("sss", $_REQUEST["user"], md5($md5salt.$_REQUEST["pass1"]), $_REQUEST["email"], $lat, $lng);
+			$stmt->bind_param ("sss", $_REQUEST["user"], md5($md5salt.$_REQUEST["pass1"]), $_REQUEST["email"], $lat, $lng);
 			$stmt->execute();
 			$_SESSION["UserID"] = $mysqli->insert_id;
 			$_SESSION["Latitude"] = $lat;

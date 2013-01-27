@@ -68,12 +68,35 @@
 		header ("Location: shelf.php?ID=".$shelf);
 	}
 
-	$stmt = $mysqli->prepare ("SELECT Title FROM items WHERE ID = ?");
-	$stmt->bind_param ("i", $_REQUEST["ID"]);
-	$stmt->execute ();
-	$stmt->bind_result ($title);
-	$stmt->fetch();
-	$stmt->close();
+	common_header ();
+	$item = $mysqli->prepare ("SELECT items.Title, itemtypes.Title, rooms.Title, shelves.Title, shelftypes.Title, labs.Title, labs.Latitude, labs.Longitude, labs.ID, rooms.ID, shelves.ID FROM items INNER JOIN itemtypes ON items.ItemTypeID = itemtypes.ID INNER JOIN shelves ON items.ShelfID = shelves.ID INNER JOIN shelftypes ON shelves.ShelfTypeID = shelftypes.ID INNER JOIN rooms ON shelves.RoomID = rooms.ID INNER JOIN labs ON rooms.LabID = labs.ID INNER JOIN institutions ON labs.InstitutionID = institutions.ID WHERE items.ID = ?");
+	$item->bind_param ("i", $_REQUEST["ID"]);
+	$item->bind_result ($item_title, $item_type_title, $room_title, $shelf_title, $shelf_type_title, $lab_title, $lat, $lng, $lab_id, $room_id, $shelf_id);
+	$item->execute ();
+	$item->fetch ();
+?>
+    <div class="row">
+    <div class="span3 menus-area">
+        <ul class="nav nav-pills nav-stacked">
+            <li class=""><a href="viewlab.php?ID=<?php print $lab_id; ?>">Lab <span class="pull-right current-value"><?php print $lab_title; ?></span></a></li>
+            <li class=""><a href="room.php?ID=<?php print $room_id; ?>">Room <span class="pull-right current-value"><?php print $room_title; ?></span></a></li>
+            <li class=""><a href="shelf.php?ID=<?php print $shelf_id; ?>"><?php print $shelf_type_title; ?> <span class="pull-right current-value"><?php print $shelf_title; ?></span></a></li>
+            <li class="active"><a href="item.php?ID=<?php print $id; ?>">Item <span class="pull-right current-value"><?php print $item_title; ?></span></a></li>
+        </ul>
+
+    </div>
+
+    <div class="span6"> <!-- main area -->
+<form method="post" action="item.php">
+<input type="hidden" name="ID" value="<?php print $_REQUEST["ID"]; ?>">
+<input type="hidden" name="update" value="1">
+<table class="table table-bordered table-condensed" width="400">
+	<tr>
+		<td>Item name</td>
+		<td><input type="text" name="Title" value="<?php print $item_title; ?>"></td>
+	</tr>
+<?php
+	$item->close();
 
 	$stmt = $mysqli->prepare ("SELECT metatables.Title, metafields.Title, metaoptions.Title, metafields.IsOption, metafields.IsFloat, metafields.IsDate, metafields.IsText, metavalues.FloatData, metavalues.DateData, metavalues.TextData, metatables.ID, metafields.ID, metaoptions.ID, metavalues.ID FROM metatables LEFT JOIN metafields ON metatables.ID = metafields.MetatableID LEFT JOIN metaoptions ON metafields.ID = metaoptions.MetafieldID LEFT JOIN metavalues ON metaoptions.ID = metavalues.MetaoptionID WHERE (metavalues.ItemID = ? OR metavalues.ItemID IS NULL) ORDER BY metatables.Title ASC, metafields.Title ASC, metaoptions.Title ASC;");
 	$stmt->bind_param ("i", $_REQUEST["ID"]);
@@ -82,19 +105,6 @@
 	$tid = $fid = $oid = -1;
 	$ptid = $pfid = -1;
 	$wasopt = 1;
-
-?>
-<html>
-<body>
-<form method="post" action="item.php">
-<input type="hidden" name="ID" value="<?php print $_REQUEST["ID"]; ?>">
-<input type="hidden" name="update" value="1">
-<table border="1" cellpadding="0" cellspacing="0" width="400">
-	<tr>
-		<td>Item name</td>
-		<td><input type="text" name="Title" value="<?php print $title; ?>"></td>
-	</tr>
-<?php
 	while ($stmt->fetch()) {
 		print "<!-- $fid -->\n";
 		if ($fid != $pfid) {
@@ -127,7 +137,7 @@
 <?php
 		} else if ($isdate) {
 ?>
-			<input type="text" name="day<?php echo $fid; ?>" value="<?php print substr($d_date, 8, 2); ?>" size="2">/<input type="text" name="month<?php echo $fid; ?>" value="<?php print substr($d_date, 5, 2); ?>" size="2">/<input type="text" name="year<?php echo $fid; ?>" value="<?php print substr($d_date, 0, 4); ?>" size="4">
+			<input class="span1" type="text" name="day<?php echo $fid; ?>" value="<?php print substr($d_date, 8, 2); ?>" size="2">/<input class="span1" type="text" name="month<?php echo $fid; ?>" value="<?php print substr($d_date, 5, 2); ?>" size="2">/<input class="span1" type="text" name="year<?php echo $fid; ?>" value="<?php print substr($d_date, 0, 4); ?>" size="4">
 <?php
 		} else if ($isfloat) {
 ?>
@@ -150,6 +160,14 @@
 	}
 ?>
 	<tr>
-		<td colspan="2"><input type="submit" value="Update">
+		<td colspan="2"><input class="btn btn-primary" type="submit" value="Update">
 	</tr>
 </table>
+    </div> <!-- /span6 -->
+    <div class="span3">
+        <img src="img/icon-item.jpg">
+    </div>
+    </div> <!-- /row -->
+<?php
+	common_footer ();
+?>
