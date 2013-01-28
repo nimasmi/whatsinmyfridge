@@ -36,7 +36,7 @@
     <div class="container">
         <div class="row">
             <div class="span3">
-                <img src="img/whatsfridgelogo.png">
+                <a href="/whatsinmyfridge/"><img src="img/whatsfridgelogo.png"></a>
             </div> <!-- span -->
             <div class="span6">
                 <ul class="nav nav-pills">
@@ -57,7 +57,7 @@
 </div> <!-- /wrap -->
 <div id="footer">
     <div class="container">
-        <p class="muted credit">Built by Omer, Jim, Ayesha and Nick.<img class="pull-right" src="img/nhshackdaylogofooter.png"></p>
+        <p class="muted credit">Built by Omer Saeed, <a href="http://twitter.com/jeblundell">Jim Blundell</a>, <a href="http://twitter.com/londonlime">Ayesha Garrett</a> and <a href="http://twitter.com/nimasmi">Nick Smith</a>.<a href="http://nhshackday.com/"><img class="pull-right" src="img/nhshackdaylogofooter.png"></a></p>
     </div>
 </div>
 
