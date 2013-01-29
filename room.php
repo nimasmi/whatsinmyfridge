@@ -40,7 +40,6 @@
 	while ($shelf->fetch()) {
 ?>
             <li class="media">
-            <div class="well">
                 <a class="pull-left" href="#">
                 <img class="media-object" src="#FIXME">
                 </a>
@@ -48,7 +47,6 @@
                 <h4 class="media-heading"><a href="shelf.php?ID=<?php print $shelf_id; ?>"><?php print $shelf_title; ?></a></h4>
                 <p><!-- FIXME some description can go here --></p>
                 </div>
-            </div>
             </li>
 <?php
 	}
