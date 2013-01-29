@@ -98,7 +98,7 @@
 <?php
 	$item->close();
 
-	$stmt = $mysqli->prepare ("SELECT metatables.Title, metafields.Title, metaoptions.Title, metafields.IsOption, metafields.IsFloat, metafields.IsDate, metafields.IsText, metavalues.FloatData, metavalues.DateData, metavalues.TextData, metatables.ID, metafields.ID, metaoptions.ID, metavalues.ID FROM metatables LEFT JOIN metafields ON metatables.ID = metafields.MetatableID LEFT JOIN metaoptions ON metafields.ID = metaoptions.MetafieldID LEFT JOIN metavalues ON metaoptions.ID = metavalues.MetaoptionID WHERE (metavalues.ItemID = ? OR metavalues.ItemID IS NULL) ORDER BY metatables.Title ASC, metafields.Title ASC, metaoptions.Title ASC;");
+	$stmt = $mysqli->prepare ("SELECT metatables.Title, metafields.Title, metaoptions.Title, metafields.IsOption, metafields.IsFloat, metafields.IsDate, metafields.IsText, metavalues.FloatData, metavalues.DateData, metavalues.TextData, metatables.ID, metafields.ID, metaoptions.ID, metavalues.ID FROM metatables INNER JOIN metafields ON metatables.ID = metafields.MetatableID INNER JOIN metaoptions ON metafields.ID = metaoptions.MetafieldID LEFT JOIN metavalues ON metaoptions.ID = metavalues.MetaoptionID AND (metavalues.ItemID = ? OR metavalues.ItemID IS NULL) ORDER BY metatables.Title ASC, metafields.Title ASC, metaoptions.Title ASC;");
 	$stmt->bind_param ("i", $_REQUEST["ID"]);
 	$stmt->execute ();
 	$stmt->bind_result ($table, $field, $option, $isoption, $isfloat, $isdate, $istext, $d_float, $d_date, $d_text, $tid, $fid, $oid, $vid);
