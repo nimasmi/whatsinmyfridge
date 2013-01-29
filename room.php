@@ -13,7 +13,7 @@
         <ul class="nav nav-pills nav-stacked">
             <li class=""><a href="viewlab.php?ID=<?php print $lab_id; ?>">Lab <span class="pull-right current-value"><?php print $lab_title; ?></span></a></li>
             <li class="active"><a href="room.php?ID=<?php print $room_id; ?>">Room <span class="pull-right current-value"><?php print $room_title; ?></span></a></li>
-            <li class="disabled"><a href="#"></span></a></li>
+            <li class="disabled"><a href="#">Fridge <span class="pull-right current-value"></span></a></li>
             <li class="disabled"><a href="#">Item <span class="pull-right current-value"></span></a></li>
         </ul>
     </div>
