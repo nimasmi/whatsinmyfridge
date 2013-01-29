@@ -20,6 +20,14 @@
     </div>
 
     <div class="span6"> <!-- main area -->
+<div class="row">
+    <div class="span4">
+    <h2><?php print $shelf_title; ?></h2>
+    </div>
+    <div class="span2">
+        <span class="pull-right"><a class="btn btn-primary" href="additem.php?ShelfID=<?php print $_REQUEST["ID"]; ?>"><i class="icon-plus"></i> Add item</a></span>
+    </div>
+</div>
 <?php
 	$shelf->close ();
 
@@ -28,15 +36,23 @@
 	$item->bind_result ($item_title, $item_type_title, $room_title, $shelf_title, $shelf_type_title, $lab_title, $lat, $lng, $lab_id, $room_id, $shelf_id, $item_id);
 	$item->execute ();
 ?>
-
-<a href="additem.php?ShelfID=<?php print $_REQUEST["ID"]; ?>">Add item</a><br>
+        <ul class="media-list">
 <?php
 	while ($item->fetch()) {
 ?>
-<a href="item.php?ID=<?php print $item_id; ?>"><?php print $item_title; ?></a><br>
+            <li class="media">
+                <a class="pull-left" href="#">
+                <img class="media-object" src="#">
+                </a>
+                <div class="media-body">
+                <h4 class="media-heading"><a href="item.php?ID=<?php print $item_id; ?>"><?php print $item_title; ?></a></h4>
+                <p><!-- FIXME some description can go here --></p>
+                </div>
+            </li>
 <?php
 	}
 ?>
+        </ul>
     </div> <!-- /span6 -->
     <div class="span3">
         <img src="img/icon-fridge.jpg">
