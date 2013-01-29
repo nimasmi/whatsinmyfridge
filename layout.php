@@ -1,4 +1,54 @@
 <?php
+	$menu['class_lab'] = $menu['class_room'] = $menu['class_shelf'] = $menu['class_item'] = "disabled";
+	$menu['url_lab']   = $menu['url_room']   = $menu['url_shelf']   = $menu['url_item']   = "#";
+	$menu['title_lab'] = $menu['title_room'] = $menu['title_shelf'] = $menu['title_item'] = "";
+	$menu['title_shelftype'] = "Fridge";
+
+	function menu_lab ($id, $title) {
+		global $menu;
+		$menu['title_lab'] = $title;
+		$menu['url_lab'] = "viewlab.php?ID=$id";
+		$menu['class_lab'] = "";
+	}
+	function menu_room ($id, $title) {
+		global $menu;
+		$menu['title_room'] = $title;
+		$menu['url_room'] = "room.php?ID=$id";
+		$menu['class_room'] = "";
+	}
+	function menu_shelf ($type, $id, $title) {
+		global $menu;
+		$menu['title_shelftype'] = $type;
+		$menu['title_shelf'] = $title;
+		$menu['url_shelf'] = "shelf.php?ID=$id";
+		$menu['class_shelf'] = "";
+	}
+	function menu_item ($id, $title) {
+		global $menu;
+		$menu['title_item'] = $title;
+		$menu['url_item'] = "item.php?ID=$id";
+		$menu['class_item'] = "";
+	}
+	function menu_put () {
+		global $menu;
+		switch (true) {	#Set one class to active; whichever is lowest in the hierarchy, i.e. item < shelf < room < lab
+			case $menu['class_item'] != "disabled": { $menu['class_item'] = "active"; break; }
+			case $menu['class_shelf'] != "disabled": { $menu['class_shelf'] = "active"; break; }
+			case $menu['class_room'] != "disabled": { $menu['class_room'] = "active"; break; }
+			case $menu['class_lab'] != "disabled": { $menu['class_lab'] = "active"; break; }
+		}
+?>
+    <div class="span3 menus-area">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="<?php print $menu['class_lab']; ?>"><a href="<?php print $menu['url_lab']; ?>">Lab <span class="pull-right current-value"><?php print $menu['title_lab']; ?></span></a></li>
+            <li class="<?php print $menu['class_room']; ?>"><a href="<?php print $menu['url_room']; ?>">Room <span class="pull-right current-value"><?php print $menu['title_room']; ?></span></a></li>
+            <li class="<?php print $menu['class_shelf']; ?>"><a href="<?php print $menu['url_shelf']; ?>"><?php print $menu['title_shelftype']; ?> <span class="pull-right current-value"><?php print $menu['title_shelf']; ?></span></a></li>
+            <li class="<?php print $menu['class_item']; ?>"><a href="<?php print $menu['url_item']; ?>">Item <span class="pull-right current-value"><?php print $menu['title_item']; ?></span></a></li>
+        </ul>
+    </div>
+<?php
+	}
+
 	function common_header () {
 		$magic_select = array(
 			"search.php" => "Search",
