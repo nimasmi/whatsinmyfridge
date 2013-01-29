@@ -13,14 +13,20 @@
         <ul class="nav nav-pills nav-stacked">
             <li class=""><a href="viewlab.php?ID=<?php print $lab_id; ?>">Lab <span class="pull-right current-value"><?php print $lab_title; ?></span></a></li>
             <li class="active"><a href="room.php?ID=<?php print $room_id; ?>">Room <span class="pull-right current-value"><?php print $room_title; ?></span></a></li>
-            <li class="disabled"><a href="#"></span></a></li>
+            <li class="disabled"><a href="#">Fridge <span class="pull-right current-value"></span></a></li>
             <li class="disabled"><a href="#">Item <span class="pull-right current-value"></span></a></li>
         </ul>
     </div>
 
     <div class="span6"> <!-- main area -->
-        <h2>Fridges <!-- FIXME in room 3 -->
-<span class="pull-right"><a class="btn btn-primary" href="addshelf.php?RoomID=<?php print $_REQUEST["ID"]; ?>"><i class="icon-plus"> Add shelf</a></span></h2>
+<div class="row">
+    <div class="span3">
+        <h2><?php print $room_title; ?></h2>
+    </div>
+    <div class="span3">
+        <span class="pull-right"><a class="btn btn-primary" href="addshelf.php?RoomID=<?php print $_REQUEST["ID"]; ?>"><i class="icon-plus"></i> Add fridge</a></span>
+    </div>
+</div>
 <?php
 	$room->close();
 
@@ -34,22 +40,21 @@
 	while ($shelf->fetch()) {
 ?>
             <li class="media">
-            <div class="well">
-                <a class="pull-left" href="#">
-                <img class="media-object" src="#FIXME">
+                <a class="pull-left" href="shelf.php?ID=<?php print $shelf_id; ?>">
+                <img class="media-object" src="img/icon-fridge.jpg" width="60px" height="60px">
                 </a>
                 <div class="media-body">
                 <h4 class="media-heading"><a href="shelf.php?ID=<?php print $shelf_id; ?>"><?php print $shelf_title; ?></a></h4>
                 <p><!-- FIXME some description can go here --></p>
                 </div>
-            </div>
             </li>
 <?php
 	}
 ?>
     </ul>
     </div> <!-- /span6 -->
-    <div class="span3">
+    <div class="hidden-phone span3">
+
         <img src="img/icon-room.jpg">
     </div>
     </div> <!-- /row -->
