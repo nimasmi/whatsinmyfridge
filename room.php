@@ -19,7 +19,8 @@
     </div>
 
     <div class="span6"> <!-- main area -->
-<a href="addshelf.php?RoomID=<?php print $_REQUEST["ID"]; ?>">Add shelf</a><br>
+        <h2>Fridges <!-- FIXME in room 3 -->
+<span class="pull-right"><a class="btn btn-primary" href="addshelf.php?RoomID=<?php print $_REQUEST["ID"]; ?>"><i class="icon-plus"> Add shelf</a></span></h2>
 <?php
 	$room->close();
 
@@ -27,13 +28,26 @@
 	$shelf->bind_param ("i", $_REQUEST["ID"]);
 	$shelf->bind_result ($room_title, $shelf_title, $shelf_type_title, $lab_title, $lat, $lng, $lab_id, $room_id, $shelf_id);
 	$shelf->execute ();
-
+?>
+        <ul class="media-list">
+<?php
 	while ($shelf->fetch()) {
 ?>
-<a href="shelf.php?ID=<?php print $shelf_id; ?>"><?php print $shelf_title; ?></a><br>
+            <li class="media">
+            <div class="well">
+                <a class="pull-left" href="#">
+                <img class="media-object" src="#FIXME">
+                </a>
+                <div class="media-body">
+                <h4 class="media-heading"><a href="shelf.php?ID=<?php print $shelf_id; ?>"><?php print $shelf_title; ?></a></h4>
+                <p><!-- FIXME some description can go here --></p>
+                </div>
+            </div>
+            </li>
 <?php
 	}
 ?>
+    </ul>
     </div> <!-- /span6 -->
     <div class="span3">
         <img src="img/icon-room.jpg">
