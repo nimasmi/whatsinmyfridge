@@ -1,5 +1,19 @@
 <?php
 	function common_header () {
+		$magic_select = array(
+			"search.php" => "Search",
+			"home.php" => "Home",
+			"index.php" => "Home",
+			"register.php" => "Home",
+			"login.php" => "Home",
+		);
+		$highlight = "Browse";
+		foreach ($magic_select as $search => $hi) {
+			if (strpos($_SERVER['SCRIPT_NAME'], $search) !== false) {
+				$highlight = $hi;
+				break;
+			}
+		}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,9 +54,9 @@
             </div> <!-- span -->
             <div class="span6">
                 <ul class="nav nav-pills">
-                    <li class="active"><a href="home.php">Home</a></li>
-                    <li class=""><a href="viewlab.php">Browse</a></li>
-                    <li class=""><a href="search.php">Search</a></li>
+                    <li class="<?php if ($highlight == "Home") { print "active"; } ?>"><a href="home.php">Home</a></li>
+                    <li class="<?php if ($highlight == "Browse") { print "active"; } ?>"><a href="viewlab.php">Browse</a></li>
+                    <li class="<?php if ($highlight == "Search") { print "active"; } ?>"><a href="search.php">Search</a></li>
                 </ul>
             </div> <!-- span6 -->
         </div> <!-- row -->
