@@ -40,8 +40,8 @@
 	while ($shelf->fetch()) {
 ?>
             <li class="media">
-                <a class="pull-left" href="#">
-                <img class="media-object" src="#FIXME">
+                <a class="pull-left" href="shelf.php?ID=<?php print $shelf_id; ?>">
+                <img class="media-object" src="img/icon-fridge.jpg" width="60px" height="60px">
                 </a>
                 <div class="media-body">
                 <h4 class="media-heading"><a href="shelf.php?ID=<?php print $shelf_id; ?>"><?php print $shelf_title; ?></a></h4>
@@ -53,7 +53,8 @@
 ?>
     </ul>
     </div> <!-- /span6 -->
-    <div class="span3">
+    <div class="hidden-phone span3">
+
         <img src="img/icon-room.jpg">
     </div>
     </div> <!-- /row -->

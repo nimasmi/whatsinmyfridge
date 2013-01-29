@@ -41,8 +41,8 @@
 	while ($item->fetch()) {
 ?>
             <li class="media">
-                <a class="pull-left" href="#">
-                <img class="media-object" src="#">
+                <a class="pull-left" href="item.php?ID=<?php print $item_id; ?>">
+                <img class="media-object" src="img/icon-item.jpg" width="60px" height="60px">
                 </a>
                 <div class="media-body">
                 <h4 class="media-heading"><a href="item.php?ID=<?php print $item_id; ?>"><?php print $item_title; ?></a></h4>
@@ -54,7 +54,7 @@
 ?>
         </ul>
     </div> <!-- /span6 -->
-    <div class="span3">
+    <div class="hidden-phone span3">
         <img src="img/icon-fridge.jpg">
     </div>
     </div> <!-- /row -->
