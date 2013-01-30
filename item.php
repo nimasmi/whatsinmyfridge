@@ -68,25 +68,17 @@
 		header ("Location: shelf.php?ID=".$shelf);
 	}
 
-	common_header ();
 	$item = $mysqli->prepare ("SELECT items.Title, itemtypes.Title, rooms.Title, shelves.Title, shelftypes.Title, labs.Title, labs.Latitude, labs.Longitude, labs.ID, rooms.ID, shelves.ID FROM items INNER JOIN itemtypes ON items.ItemTypeID = itemtypes.ID INNER JOIN shelves ON items.ShelfID = shelves.ID INNER JOIN shelftypes ON shelves.ShelfTypeID = shelftypes.ID INNER JOIN rooms ON shelves.RoomID = rooms.ID INNER JOIN labs ON rooms.LabID = labs.ID INNER JOIN institutions ON labs.InstitutionID = institutions.ID WHERE items.ID = ?");
 	$item->bind_param ("i", $_REQUEST["ID"]);
 	$item->bind_result ($item_title, $item_type_title, $room_title, $shelf_title, $shelf_type_title, $lab_title, $lat, $lng, $lab_id, $room_id, $shelf_id);
 	$item->execute ();
 	$item->fetch ();
+	menu_lab ($lab_id, $lab_title);
+	menu_room ($room_id, $room_title);
+	menu_shelf ($shelf_type_title, $shelf_id, $shelf_title);
+	menu_item ($_REQUEST['ID'], $item_title);
+	common_header ();
 ?>
-    <div class="row">
-    <div class="span3 menus-area">
-        <ul class="nav nav-pills nav-stacked">
-            <li class=""><a href="viewlab.php?ID=<?php print $lab_id; ?>">Lab <span class="pull-right current-value"><?php print $lab_title; ?></span></a></li>
-            <li class=""><a href="room.php?ID=<?php print $room_id; ?>">Room <span class="pull-right current-value"><?php print $room_title; ?></span></a></li>
-            <li class=""><a href="shelf.php?ID=<?php print $shelf_id; ?>"><?php print $shelf_type_title; ?> <span class="pull-right current-value"><?php print $shelf_title; ?></span></a></li>
-            <li class="active"><a href="item.php?ID=<?php print $id; ?>">Item <span class="pull-right current-value"><?php print $item_title; ?></span></a></li>
-        </ul>
-
-    </div>
-
-    <div class="span6"> <!-- main area -->
 <form method="post" action="item.php">
 <input type="hidden" name="ID" value="<?php print $_REQUEST["ID"]; ?>">
 <input type="hidden" name="update" value="1">
@@ -163,11 +155,6 @@
 		<td colspan="2"><input class="btn btn-primary" type="submit" value="Update">
 	</tr>
 </table>
-    </div> <!-- /span6 -->
-    <div class="span3">
-        <img src="img/icon-item.jpg">
-    </div>
-    </div> <!-- /row -->
 <?php
 	common_footer ();
 ?>

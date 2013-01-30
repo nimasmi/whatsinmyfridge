@@ -29,27 +29,16 @@
 		$menu['url_item'] = "item.php?ID=$id";
 		$menu['class_item'] = "";
 	}
-	function menu_put () {
-		global $menu;
+
+	function common_header () {
+		global $menu, $drill_icon;
+
 		switch (true) {	#Set one class to active; whichever is lowest in the hierarchy, i.e. item < shelf < room < lab
 			case $menu['class_item'] != "disabled": { $menu['class_item'] = "active"; break; }
 			case $menu['class_shelf'] != "disabled": { $menu['class_shelf'] = "active"; break; }
 			case $menu['class_room'] != "disabled": { $menu['class_room'] = "active"; break; }
 			case $menu['class_lab'] != "disabled": { $menu['class_lab'] = "active"; break; }
 		}
-?>
-    <div class="span3 menus-area">
-        <ul class="nav nav-pills nav-stacked">
-            <li class="<?php print $menu['class_lab']; ?>"><a href="<?php print $menu['url_lab']; ?>">Lab <span class="pull-right current-value"><?php print $menu['title_lab']; ?></span></a></li>
-            <li class="<?php print $menu['class_room']; ?>"><a href="<?php print $menu['url_room']; ?>">Room <span class="pull-right current-value"><?php print $menu['title_room']; ?></span></a></li>
-            <li class="<?php print $menu['class_shelf']; ?>"><a href="<?php print $menu['url_shelf']; ?>"><?php print $menu['title_shelftype']; ?> <span class="pull-right current-value"><?php print $menu['title_shelf']; ?></span></a></li>
-            <li class="<?php print $menu['class_item']; ?>"><a href="<?php print $menu['url_item']; ?>">Item <span class="pull-right current-value"><?php print $menu['title_item']; ?></span></a></li>
-        </ul>
-    </div>
-<?php
-	}
-
-	function common_header () {
 		$magic_select = array(
 			"search.php" => "Search",
 			"home.php" => "Home",
@@ -57,12 +46,34 @@
 			"register.php" => "Home",
 			"login.php" => "Home",
 		);
+		$drillable = array(
+			"addlab.php",
+			"addroom.php",
+			"addshelf.php",
+			"additem.php",
+			"lab.php",
+			"room.php",
+			"shelf.php",
+			"item.php",
+		);
 		$highlight = "Browse";
 		foreach ($magic_select as $search => $hi) {
 			if (strpos($_SERVER['SCRIPT_NAME'], $search) !== false) {
 				$highlight = $hi;
 				break;
 			}
+		}
+		$is_drillable = false;
+		foreach ($drillable as $search) {
+			if (strpos($_SERVER['SCRIPT_NAME'], $search) !== false) {
+				$is_drillable = true;
+				break;
+			}
+		}
+		if ($is_drillable) {
+			$drill_icon = "img/icon-room.jpg"; #FIXME: change depending upon type
+		} else {
+			$drill_icon = "";
 		}
 ?>
 <!DOCTYPE html>
@@ -112,10 +123,43 @@
         </div> <!-- row -->
     </div> <!-- container -->
 </div><div id="main" class="container clear-top">
+    <div class="row">
+<?php if ($is_drillable) { ?>
+    <div class="span3 menus-area">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="<?php print $menu['class_lab']; ?>"><a href="<?php print $menu['url_lab']; ?>">Lab <span class="pull-right current-value"><?php print $menu['title_lab']; ?></span></a></li>
+            <li class="<?php print $menu['class_room']; ?>"><a href="<?php print $menu['url_room']; ?>">Room <span class="pull-right current-value"><?php print $menu['title_room']; ?></span></a></li>
+            <li class="<?php print $menu['class_shelf']; ?>"><a href="<?php print $menu['url_shelf']; ?>"><?php print $menu['title_shelftype']; ?> <span class="pull-right current-value"><?php print $menu['title_shelf']; ?></span></a></li>
+            <li class="<?php print $menu['class_item']; ?>"><a href="<?php print $menu['url_item']; ?>">Item <span class="pull-right current-value"><?php print $menu['title_item']; ?></span></a></li>
+        </ul>
+    </div>
+<?php } ?>
+    <div class="span6"> <!-- main area -->
 <?php
 	}
+
 	function common_footer () {
+		global $drill_icon, $large_icon;
 ?>
+    </div> <!-- /span6 -->
+<?php
+		if ($drill_icon != "") {
+?>
+    <div class="hidden-phone span3">
+
+        <img src="<?php print $drill_icon; ?>">
+    </div>
+<?php
+		} else if ($large_icon != "") {
+?>
+    <div class="span6">
+
+        <img src="<?php print $large_icon; ?>">
+    </div>
+<?php
+		}
+?>
+    </div> <!-- /row -->
 </div> <!-- /container -->
 <div id="push"></div>
 </div> <!-- /wrap -->

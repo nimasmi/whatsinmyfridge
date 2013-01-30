@@ -1,24 +1,15 @@
 <?php
 	require_once "common.php";
 
-	common_header ();
 	$room = $mysqli->prepare ("SELECT rooms.Title, labs.Title, labs.Latitude, labs.Longitude, labs.ID, rooms.ID FROM rooms INNER JOIN labs ON rooms.LabID = labs.ID INNER JOIN institutions ON labs.InstitutionID = institutions.ID WHERE rooms.ID = ?");
 	$room->bind_param ("i", $_REQUEST["ID"]);
 	$room->bind_result ($room_title, $lab_title, $lat, $lng, $lab_id, $room_id);
 	$room->execute ();
 	$room->fetch();
+	menu_lab ($lab_id, $lab_title);
+	menu_room ($room_id, $room_title);
+	common_header ();
 ?>
-    <div class="row">
-    <div class="span3 menus-area">
-        <ul class="nav nav-pills nav-stacked">
-            <li class=""><a href="viewlab.php?ID=<?php print $lab_id; ?>">Lab <span class="pull-right current-value"><?php print $lab_title; ?></span></a></li>
-            <li class="active"><a href="room.php?ID=<?php print $room_id; ?>">Room <span class="pull-right current-value"><?php print $room_title; ?></span></a></li>
-            <li class="disabled"><a href="#">Fridge <span class="pull-right current-value"></span></a></li>
-            <li class="disabled"><a href="#">Item <span class="pull-right current-value"></span></a></li>
-        </ul>
-    </div>
-
-    <div class="span6"> <!-- main area -->
 <div class="row">
     <div class="span3">
         <h2><?php print $room_title; ?></h2>
@@ -52,12 +43,6 @@
 	}
 ?>
     </ul>
-    </div> <!-- /span6 -->
-    <div class="hidden-phone span3">
-
-        <img src="img/icon-room.jpg">
-    </div>
-    </div> <!-- /row -->
 <?php
 	common_footer ();
 ?>

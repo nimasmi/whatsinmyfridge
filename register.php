@@ -38,6 +38,7 @@ Postcode (for locating labs near to you): <input type="text" name="postcode"><br
 <input type="submit" value="Register">
 </form>
 <?php
+		$large_icon = "img/whatsfridgelarge.jpg";
 		common_footer ();
 	}
 ?>

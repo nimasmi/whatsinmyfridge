@@ -31,7 +31,6 @@
 
 	common_header ();
 ?>
-<body>
 <form method="post" action="login.php">
 Username: <input type="text" name="User"><br>
 Password: <input type="password" name="Pass"><br>
@@ -39,5 +38,6 @@ Password: <input type="password" name="Pass"><br>
 <a href="register.php">Register</a>
 </form>
 <?php
+	$large_icon = "img/whatsfridgelarge.jpg";
 	common_footer ();
 ?>

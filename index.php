@@ -9,8 +9,6 @@
 
 	common_header ();
 ?>
-    <div class="row">
-    <div class="span6">
     <h1>What's in my fridge?</h1>
     <p class="lead">The NHS Marketplace for Laboratory Stock</p>
     <a class="btn btn-large btn-primary" href="register.php">Sign up today</a>
@@ -30,12 +28,7 @@
 
     <h4>Notify</h4>
     <p>Auto generate emails to yourself and other health professionals once any item comes within two months of the expiry date.</p>
-
-    </div> <!-- /span6 -->
-    <div class="span6">
-        <img src="img/whatsfridgelarge.jpg">
-    </div>
-    </div> <!-- /row -->
 <?php
+	$large_icon = "img/whatsfridgelarge.jpg";
 	common_footer ();
 ?>
