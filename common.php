@@ -19,6 +19,7 @@
 
 	function crypt_salt () {
 		$valid = array_merge(range('A','Z'), range('a','z'), range(0,9));
+		$salt = "";
     	for($i=0; $i < 22; $i++) {
     	  	$salt .= $valid[array_rand($valid)];
     	}
