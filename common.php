@@ -32,6 +32,7 @@
 		$stmt->bind_result ($lat, $lng);
 		$stmt->execute();
 		$stmt->fetch();
+		$stmt->close();
 		return array($lat, $lng);
 	}
 	function latlongdist ($lat1, $lng1, $lat2, $lng2) {

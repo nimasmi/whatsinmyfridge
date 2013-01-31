@@ -14,8 +14,8 @@
 			print "User already exists";
 			exit;
 		} else {
-			list($lat,$lng) = geocode ($_REQUEST["postcode"]);
 			$stmt->close ();
+			list($lat,$lng) = geocode ($_REQUEST["postcode"]);
 			$stmt = $mysqli->prepare ("INSERT INTO users (User, Pass, Email, Latitude, Longitude) VALUES (?, ?, ?, ?, ?)");
 			$stmt->bind_param ("sss", $_REQUEST["user"], crypt($pass_pepper.$_REQUEST["pass1"], crypt_salt()), $_REQUEST["email"], $lat, $lng);
 			$stmt->execute();
