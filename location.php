@@ -16,12 +16,13 @@
 		header ("Location: index.php");
 		exit;
 	}
+
+	common_header ();
 ?>
-<html>
-<body>
 <form method="post" action="location.php">
 Postcode of your current location: <input type="text" name="Postcode"><br>
 <input type="submit" value="Update my location">
 </form>
-</body>
-</html>
+<?php
+	common_footer ();
+?>

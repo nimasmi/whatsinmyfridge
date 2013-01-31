@@ -9,9 +9,9 @@
 		$stmt->execute();
 		header ("Location: viewlab.php?ID=".$mysqli->insert_id);
 	}
+
+	common_header ();
 ?>
-<html>
-<body>
 <form method="post" action="addlab.php">
 <?php
 	$stmt = $mysqli->prepare ("SELECT ID, Title FROM institutions ORDER BY Title ASC;");
@@ -33,5 +33,6 @@ Address: <input type="text" name="Address"><br>
 Postcode: <input type="text" name="Postcode"><br>
 <input type="submit" value="Add lab">
 </form>
-</body>
-</html>
+<?php
+	common_footer ();
+?>
