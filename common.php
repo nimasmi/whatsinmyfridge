@@ -4,9 +4,12 @@
 	$mysql_user = "";
 	$mysql_pass = "";
 	$mysql_db = "";
-	$md5salt = "";
+	$pass_pepper = "";
 	require_once "vars.php";	#Sets the above variables
 	require_once "layout.php";
+
+	defined("CRYPT_BLOWFISH") or die("Blowfish encryption not available");
+	CRYPT_BLOWFISH>0 or die("Blowfish encryption not available");
 
 	session_start ();
 	if (!isset($_SESSION["UserID"]) && !isset($skipauth)) {
@@ -14,6 +17,13 @@
 	}
 	$mysqli = new mysqli ($mysql_host, $mysql_user, $mysql_pass, $mysql_db);
 
+	function crypt_salt () {
+		$valid = array_merge(range('A','Z'), range('a','z'), range(0,9));
+    	for($i=0; $i < 22; $i++) {
+    	  	$salt .= $valid[array_rand($valid)];
+    	}
+		return "$2y$09$".$salt;
+	}
 	function geocode ($postcode) {
 		global $mysqli;
 		$code = preg_replace ("/[^A-Z0-9]/", "", strtoupper($postcode));

@@ -17,7 +17,7 @@
 			list($lat,$lng) = geocode ($_REQUEST["postcode"]);
 			$stmt->close ();
 			$stmt = $mysqli->prepare ("INSERT INTO users (User, Pass, Email, Latitude, Longitude) VALUES (?, ?, ?, ?, ?)");
-			$stmt->bind_param ("sss", $_REQUEST["user"], md5($md5salt.$_REQUEST["pass1"]), $_REQUEST["email"], $lat, $lng);
+			$stmt->bind_param ("sss", $_REQUEST["user"], crypt($pass_pepper.$_REQUEST["pass1"], crypt_salt()), $_REQUEST["email"], $lat, $lng);
 			$stmt->execute();
 			$_SESSION["UserID"] = $mysqli->insert_id;
 			$_SESSION["Latitude"] = $lat;

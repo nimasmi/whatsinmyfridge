@@ -13,7 +13,7 @@
 		$stmt->execute ();
 		$stmt->bind_result ($id, $pass, $lat, $lng);
 		if ($stmt->fetch()) {
-			if (md5($md5salt.$_REQUEST["Pass"]) != $pass) {
+			if (crypt($pass_pepper,$_REQUEST["Pass"], $pass) != $pass) {
 				print "Username/password incorrect";
 				exit;
 			}
