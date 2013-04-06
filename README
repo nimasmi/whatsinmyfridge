@@ -1,4 +1,16 @@
-Omar
-Jim
-Nick
-Ayesha
+This was originally at the Oxford NHS hackday (January 2013) and was developed by:
+Omer Saeed (the man with the plan)
+Ayesha Garrett (HTML/CSS)
+Nick Smith (HTML/CSS)
+Jim Blundell (PHP, Javascript, SQL)
+
+Contacts: Jim, @jeblundell; Ayesha, @londonlime; Nick, @nimasmi
+
+The CSS, HTML, Javascript and PHP are licensed under the GNU General Public License (see GPL.txt). 
+
+The postcodes were derived from Ordnance Survey's Code-Point Open dataset and are licensed for use under the OS OpenData licence (See OS-OPENDATA.pdf). Contains Ordnance Survey data (C) Crown copyright and database right 2013.
+
+Not sure of license of the graphics, but I seem to recall that it's Creative Commons
+
+Given that this was thrown together in 2 days, it's a wonder that it works. Unsurprisingly, don't be surprised when it doesn't. I know it says that in the license, but still.
+
